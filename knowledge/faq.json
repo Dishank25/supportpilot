@@ -1,0 +1,182 @@
+[
+  {
+    "id": "orders-001",
+    "category": "Orders",
+    "question": "How can I check the status of my pet food order?",
+    "answer": "You can check your order status from your account orders page. If tracking is available, the carrier link will appear once the order ships."
+  },
+  {
+    "id": "orders-002",
+    "category": "Orders",
+    "question": "Can I change the delivery address after placing an order?",
+    "answer": "Address changes may be possible before the order is packed. Contact support as soon as possible with your order number and the corrected address."
+  },
+  {
+    "id": "orders-003",
+    "category": "Orders",
+    "question": "What should I do if an item is missing from my order?",
+    "answer": "Please contact support with your order number and a photo of the package contents. We will review the shipment and arrange a replacement or adjustment if needed."
+  },
+  {
+    "id": "orders-004",
+    "category": "Orders",
+    "question": "Can I cancel an order before it ships?",
+    "answer": "Orders can usually be canceled before they enter packing. Open your order details or contact support quickly so we can check the current status."
+  },
+  {
+    "id": "orders-005",
+    "category": "Orders",
+    "question": "Do you offer same-day delivery for pet supplies?",
+    "answer": "Same-day delivery availability depends on your location, item availability, and order time. Eligible options are shown during checkout."
+  },
+  {
+    "id": "orders-006",
+    "category": "Orders",
+    "question": "Why was part of my order shipped separately?",
+    "answer": "Some products ship from different locations or require special handling. Separate shipments help us deliver available items sooner."
+  },
+  {
+    "id": "refunds-001",
+    "category": "Refunds",
+    "question": "How long does it take to receive a refund?",
+    "answer": "Approved refunds are usually processed within 3 to 7 business days, depending on your bank or payment provider."
+  },
+  {
+    "id": "refunds-002",
+    "category": "Refunds",
+    "question": "Can I get a refund for opened pet food?",
+    "answer": "Refund eligibility for opened pet food depends on the reason for return and product condition. Contact support with your order number for review."
+  },
+  {
+    "id": "refunds-003",
+    "category": "Refunds",
+    "question": "What happens if my refund goes to an expired card?",
+    "answer": "Refunds are sent to the original payment method. If the card is expired, your bank usually routes the credit to the replacement account."
+  },
+  {
+    "id": "refunds-004",
+    "category": "Refunds",
+    "question": "Do shipping fees get refunded?",
+    "answer": "Shipping fees may be refunded when the issue was caused by a fulfillment error or damaged shipment. Standard return shipping fees may not be refundable."
+  },
+  {
+    "id": "refunds-005",
+    "category": "Refunds",
+    "question": "How do I request a refund for a damaged toy?",
+    "answer": "Send support your order number and clear photos of the damaged toy and packaging. We will review the claim and offer a refund or replacement when eligible."
+  },
+  {
+    "id": "refunds-006",
+    "category": "Refunds",
+    "question": "Can I receive store credit instead of a refund?",
+    "answer": "Yes, store credit may be available for eligible returns. Let support know your preference when you submit the return request."
+  },
+  {
+    "id": "grooming-001",
+    "category": "Grooming",
+    "question": "How do I book a grooming appointment?",
+    "answer": "You can book grooming from your account by choosing your pet, preferred service, location, and appointment time."
+  },
+  {
+    "id": "grooming-002",
+    "category": "Grooming",
+    "question": "What vaccinations are required for grooming?",
+    "answer": "Requirements vary by location, but dogs commonly need current rabies documentation. The appointment page will list any required records."
+  },
+  {
+    "id": "grooming-003",
+    "category": "Grooming",
+    "question": "Can I reschedule a grooming appointment?",
+    "answer": "Yes, you can reschedule from your appointment details if the booking is still within the allowed change window."
+  },
+  {
+    "id": "grooming-004",
+    "category": "Grooming",
+    "question": "How long does a full-service grooming visit take?",
+    "answer": "Most full-service grooming visits take 2 to 4 hours, depending on your pet's size, coat condition, and selected services."
+  },
+  {
+    "id": "grooming-005",
+    "category": "Grooming",
+    "question": "Do you groom anxious pets?",
+    "answer": "Many groomers can work with anxious pets using calm handling and breaks. Please add notes during booking so the team can prepare."
+  },
+  {
+    "id": "grooming-006",
+    "category": "Grooming",
+    "question": "Can I add nail trimming to a grooming appointment?",
+    "answer": "Yes, nail trimming can usually be added during booking or at check-in, depending on appointment availability."
+  },
+  {
+    "id": "vet-appointments-001",
+    "category": "Vet Appointments",
+    "question": "How can I schedule a vet appointment?",
+    "answer": "Choose your pet profile, select a clinic or virtual visit, and pick an available time from the vet appointment calendar."
+  },
+  {
+    "id": "vet-appointments-002",
+    "category": "Vet Appointments",
+    "question": "Can I upload my pet's medical records before a visit?",
+    "answer": "Yes, you can upload medical records from your pet profile or appointment details before the visit."
+  },
+  {
+    "id": "vet-appointments-003",
+    "category": "Vet Appointments",
+    "question": "What should I bring to my pet's first vet appointment?",
+    "answer": "Bring vaccination records, current medications, prior medical history, and any questions or symptoms you want to discuss."
+  },
+  {
+    "id": "vet-appointments-004",
+    "category": "Vet Appointments",
+    "question": "How do I cancel a vet appointment?",
+    "answer": "Open the appointment details in your account and select cancel. If the visit is soon, contact support or the clinic directly."
+  },
+  {
+    "id": "vet-appointments-005",
+    "category": "Vet Appointments",
+    "question": "Are virtual vet appointments available?",
+    "answer": "Virtual vet appointments may be available for non-emergency concerns, follow-ups, and general guidance where permitted."
+  },
+  {
+    "id": "vet-appointments-006",
+    "category": "Vet Appointments",
+    "question": "Can I book appointments for multiple pets at once?",
+    "answer": "You may need separate appointment slots for each pet so the veterinary team has enough time to evaluate them properly."
+  },
+  {
+    "id": "account-001",
+    "category": "Account",
+    "question": "How do I reset my account password?",
+    "answer": "Use the forgot password link on the sign-in page and follow the email instructions to create a new password."
+  },
+  {
+    "id": "account-002",
+    "category": "Account",
+    "question": "How can I add a new pet to my account?",
+    "answer": "Go to your pet profiles and select add pet. Enter your pet's name, species, breed, age, and any relevant care details."
+  },
+  {
+    "id": "account-003",
+    "category": "Account",
+    "question": "Can I update my saved payment method?",
+    "answer": "Yes, you can update saved payment methods from account settings before placing your next order or booking."
+  },
+  {
+    "id": "account-004",
+    "category": "Account",
+    "question": "How do I change my email address?",
+    "answer": "You can update your email address in account settings. A verification step may be required before the change is complete."
+  },
+  {
+    "id": "account-005",
+    "category": "Account",
+    "question": "Why am I not receiving account emails?",
+    "answer": "Check your spam folder, confirm your email address is correct, and make sure support emails are not blocked by your mail provider."
+  },
+  {
+    "id": "account-006",
+    "category": "Account",
+    "question": "How do I delete my account?",
+    "answer": "Submit an account deletion request from account settings or contact support. We may ask you to verify ownership before processing the request."
+  }
+]
