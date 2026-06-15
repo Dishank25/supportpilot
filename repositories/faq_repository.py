@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import logging
 from pathlib import Path
@@ -32,25 +33,40 @@ class FAQRepository(KnowledgeRepository):
         self.vectorstore_path = vectorstore_path
         self.collection_name = collection_name
         self.faqs = self._load_faqs()
+        self.faq_hash = self._hash_faqs()
 
         logger.info("Initializing FAQRepository with ChromaDB at %s", vectorstore_path)
         self.client = chromadb.PersistentClient(path=str(vectorstore_path))
-        self.collection = self.client.get_or_create_collection(
-            name=collection_name,
-            embedding_function=None,
-        )
 
-        if self.collection.count() == 0:
-            logger.info("FAQ collection is empty; ingesting %d FAQs", len(self.faqs))
+        existing = self._get_existing_collection()
+        if self._needs_ingest(existing):
+            if existing is not None:
+                logger.info(
+                    "FAQ collection is stale or incomplete; deleting and re-ingesting"
+                )
+                self.client.delete_collection(self.collection_name)
+            else:
+                logger.info("FAQ collection not found; ingesting %d FAQs", len(self.faqs))
+            self.collection = self.client.create_collection(
+                name=self.collection_name,
+                embedding_function=None,
+                metadata={"hnsw:space": "cosine", "faq_hash": self.faq_hash},
+            )
             self._ingest_faqs()
         else:
+            self.collection = existing
             logger.info(
                 "Reusing existing FAQ collection with %d documents",
                 self.collection.count(),
             )
 
     def search(self, query: str, top_k: int = 1) -> list[dict]:
-        """Search FAQ records and return id, category, question, answer, and distance."""
+        """Search FAQ records and return neutral knowledge records.
+
+        Maps FAQ fields onto the shared schema: ``title`` is the question and
+        ``content`` is the answer. See ``KnowledgeRepository.search`` for the
+        full contract.
+        """
         if not isinstance(query, str):
             raise ValueError("query must be a string")
 
@@ -80,9 +96,9 @@ class FAQRepository(KnowledgeRepository):
             records.append(
                 {
                     "id": record_id,
+                    "title": metadata["question"],
+                    "content": metadata["answer"],
                     "category": metadata["category"],
-                    "question": metadata["question"],
-                    "answer": metadata["answer"],
                     "distance": float(distance),
                 }
             )
@@ -110,6 +126,35 @@ class FAQRepository(KnowledgeRepository):
                 raise ValueError(f"FAQ entry at index {index} is missing: {missing}")
 
         return faqs
+
+    def _hash_faqs(self) -> str:
+        """Return a SHA-256 hash of the raw faq.json bytes."""
+        return hashlib.sha256(self.faq_path.read_bytes()).hexdigest()
+
+    def _get_existing_collection(self):
+        """Return the persisted collection if it exists, else None."""
+        try:
+            return self.client.get_collection(name=self.collection_name)
+        except Exception:
+            # ChromaDB raises when the collection does not exist yet.
+            return None
+
+    def _needs_ingest(self, existing) -> bool:
+        """Re-ingest when the store is missing, incomplete, or out of date."""
+        if existing is None:
+            return True
+        if existing.count() != len(self.faqs):
+            logger.info(
+                "FAQ count mismatch: store has %d, JSON has %d",
+                existing.count(),
+                len(self.faqs),
+            )
+            return True
+        stored_hash = (existing.metadata or {}).get("faq_hash")
+        if stored_hash != self.faq_hash:
+            logger.info("FAQ hash changed since last ingest")
+            return True
+        return False
 
     def _ingest_faqs(self) -> None:
         ids = [str(faq["id"]) for faq in self.faqs]
