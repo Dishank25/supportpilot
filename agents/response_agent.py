@@ -12,6 +12,7 @@ from openai import OpenAI
 MODEL_NAME = "gpt-4o-mini"
 TEMPERATURE = 0.2
 MAX_TOKENS = 250
+OPENAI_TIMEOUT_SECONDS = 30
 
 FALLBACK_RESPONSE = (
     "I couldn't find information about that in our knowledge base. "
@@ -35,17 +36,18 @@ class ResponseAgent:
         load_dotenv()
         self._client: OpenAI | None = None
 
-    def generate(self, question: str, retrieval_result: dict) -> str:
+    def generate(self, question: str, retrieval_result: dict, intent: str) -> str:
         """Generate a grounded answer or return a fallback for no-match results."""
         _validate_question(question)
         _validate_retrieval_result(retrieval_result)
+        _validate_intent(intent)
 
         if not retrieval_result["match_found"]:
             logger.info("Returning fallback response for no-match retrieval result")
             return FALLBACK_RESPONSE
 
         context = _build_context(retrieval_result["results"])
-        prompt = _build_prompt(question, context)
+        prompt = _build_prompt(question, retrieval_result, intent, context)
 
         logger.info("Generating grounded response with model %s", MODEL_NAME)
         response = self._get_client().responses.create(
@@ -77,7 +79,10 @@ class ResponseAgent:
                     ".env before generating matched responses"
                 )
 
-            self._client = OpenAI(api_key=api_key)
+            self._client = OpenAI(
+                api_key=api_key,
+                timeout=OPENAI_TIMEOUT_SECONDS,
+            )
 
         return self._client
 
@@ -88,6 +93,14 @@ def _validate_question(question: str) -> None:
 
     if not question.strip():
         raise ValueError("question must not be empty or whitespace only")
+
+
+def _validate_intent(intent: str) -> None:
+    if not isinstance(intent, str):
+        raise ValueError("intent must be a string")
+
+    if not intent.strip():
+        raise ValueError("intent must not be empty or whitespace only")
 
 
 def _validate_retrieval_result(retrieval_result: dict) -> None:
@@ -156,10 +169,21 @@ def _build_context(results: list[dict]) -> str:
     return "\n\n".join(blocks)
 
 
-def _build_prompt(question: str, context: str) -> str:
+def _build_prompt(
+    question: str,
+    retrieval_result: dict,
+    intent: str,
+    context: str,
+) -> str:
     return "\n\n".join(
         [
             f"Customer question: {question}",
+            f"Intent: {intent}",
+            f"Retrieval confidence: {retrieval_result['confidence']}",
+            (
+                "Use intent only as response framing/context. Do not use it to "
+                "filter retrieval or override retrieved knowledge."
+            ),
             "Retrieved context:",
             context,
             "Write the customer-facing answer.",

@@ -55,10 +55,17 @@ def chat(request: ChatRequest, fastapi_request: Request) -> ChatResponse:
         response_agent: ResponseAgent = fastapi_request.app.state.response_agent
 
         intent = intent_agent.classify(message)
-        retrieval_result: dict[str, Any] = retrieval_agent.retrieve(message, top_k=1)
-        response = response_agent.generate(message, retrieval_result)
+        retrieval_result: dict[str, Any] = retrieval_agent.retrieve(message, top_k=3)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    try:
+        response = response_agent.generate(message, retrieval_result, intent)
+    except Exception as exc:
+        raise HTTPException(
+            status_code=503,
+            detail="response generation is temporarily unavailable",
+        ) from exc
 
     return ChatResponse(
         intent=intent,
